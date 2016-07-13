@@ -1,5 +1,7 @@
 clear;
 p = './test/';   %change your image dir then run
+p = '/home/niz/data/06062016_GOPR/HeroSession_1080_Ground/roi/';
+res_dir = '/home/niz/data/06062016_GOPR/HeroSession_1080_Ground/roi_cascadecnn/';
 subdir = dir(p);
 count = 1;%pic_count
 incount = 1;%in_count
@@ -16,14 +18,16 @@ net12 = load('12net-newborn/f12net.mat') ;
 net12_c = load('12net-cc-v1/f12net_c.mat') ;
 net24 = load('24net-newborn/f24net-cpu.mat') ;
 net24_c = load('24net-cc-v1-no256/f24netc.mat') ;
-net48 = load('48net-6hard-2/f48net-cpu.mat') ;
+%net48 = load('48net-6hard-2/f48net-cpu.mat') ;
+net48 = load('48net-6hard/f48net-cpu.mat') ;
+
 net48_c = load('48net-cc-cifar-v2-submean/f48netc.mat') ;
 for i=1:length(subdir)
     if( isequal( subdir( i ).name, '.' ) || ...
         isequal( subdir( i ).name, '..' ) )   
         continue;
     end
-    if( isempty(strfind(subdir( i ).name,'jpg')))   
+    if( isempty(strfind(subdir( i ).name,'png')))   
         continue;
     end
        tline = strcat(p,subdir(i).name);
