@@ -30,6 +30,8 @@ net24_c = load('24net-cc-v1-no256/f24netc.mat') ;
 net48 = load('48net-6hard/f48net-cpu.mat') ;
 net48_c = load('48net-cc-cifar-v2-submean/f48netc.mat') ;
 
+score_file = fopen(fullfile(result_dir, 'face_scores.txt'), 'w');
+
 for i=1:nfiles
     tline = fullfile(img_dir, imgfiles(i).name);
     fprintf('%s\n', tline);
@@ -61,11 +63,16 @@ for i=1:nfiles
         for xx = 1:boxes_size(1)
             rectangle('Position',[y1(xx)-pad,x1(xx)-pad,(y2(xx)-y1(xx)),x2(xx)-x1(xx)],'LineWidth',2,'EdgeColor','b');
             text(y1(xx)-pad,x1(xx)-pad,num2str(boxes(xx,5)),'BackgroundColor','b','Color','w');
+            fprintf(score_file, '%.6f\n',    boxes(xx,5));
         end
-        save_path = fullfile(result_dir, [fname, '.png']);
-        print(save_path, '-dpng');
+        save_path = fullfile(result_dir, fname);
+        %print(save_path, '-dpng');
+        fig_frame = getframe;
+        imwrite(fig_frame.cdata, save_path);
     end 
 end
+
+fclose(score_file);
 
 log_file = fopen(fullfile(result_dir, 'detected_faces.txt'), 'w');
 fprintf(log_file, 'num. of detected faces: %d\n', detface_count);

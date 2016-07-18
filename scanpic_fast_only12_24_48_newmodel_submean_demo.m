@@ -47,11 +47,12 @@ boxes48=[];
 ttt = 1;
 
 for k=1:8
-    ss = (200/min(oh,ow))/ttt;% oh/12<f<oh
+    %ss = (200/min(oh,ow))/ttt;% oh/12<f<oh
+    ss = (500/min(oh,ow))/ttt;
     %ss = 12/(20*ttt);
     ttt =ttt*1.41;
     im = imresize(origin_im,ss);
-    [h, w ,c] = size(im);
+    [h, w ,c] = size(im)    ;
     im = im2single(im) ;
     im = bsxfun(@minus, im,net12.imageMean) ;
     %cim =  (im - net12_c.imageMean) ;
